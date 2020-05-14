@@ -37,18 +37,6 @@ int main(int argc, char** argv) {
     read(f1, buffer1, stat_file1.st_size);
     read(f2, buffer2, stat_file2.st_size);
 
-    if (stat_file1.st_size == stat_file2.st_size) {
-        if (strcmp(buffer1, buffer2) == 0) {
-            return 1;
-        }
-
-        if (compare(buffer1, buffer2, stat_file1.st_size) >= stat_file1.st_size / 2) {
-            return 3;
-        }
-
-        return 2;
-    }
-
     unsigned int smaller = (strlen(buffer1) <= strlen(buffer2)) ? strlen(buffer1) : strlen(buffer2);
     unsigned int bigger = strlen(buffer1) + strlen(buffer2) - smaller;
     unsigned int diff = bigger - smaller;
@@ -57,7 +45,7 @@ int main(int argc, char** argv) {
     for (i = 0; i <= diff; i++) {
         char* buffer;
 
-        if (stat_file1.st_size > stat_file2.st_size) {
+        if (stat_file1.st_size >= stat_file2.st_size) {
             lseek(f1, i, SEEK_SET);
             buffer = (char *) malloc(bigger - i);
             read(f1, buffer, bigger - i);
@@ -83,7 +71,7 @@ int main(int argc, char** argv) {
         for (j = smaller - 1; j >= 1; j--) {
             char* buffer;
 
-            if (stat_file1.st_size < stat_file2.st_size) {
+            if (stat_file1.st_size <= stat_file2.st_size) {
                 lseek(f1, j, SEEK_SET);
                 buffer = (char *) malloc(smaller - j);
                 read(f1, buffer, smaller - j);
@@ -117,11 +105,14 @@ int main(int argc, char** argv) {
                     return 3;
                 }
             } else {
-                lseek(f2, j, SEEK_SET);
-                buffer = (char *) malloc(smaller -j);
-                read(f2, buffer, smaller - j);
+                lseek(f2, k, SEEK_SET);
+                buffer = (char *) malloc(bigger -k);
+                read(f2, buffer, bigger - k);
 
-                if (compare(buffer, buffer1, smaller - j) >= (smaller - j + 1) / 2) {
+                strncpy(small, buffer1, smaller - j);
+                small[smaller - j] = 0;
+
+                if (compare(buffer, small, smaller - j) >= (smaller - j + 1) / 2) {
                     return 3;
                 }
             }
