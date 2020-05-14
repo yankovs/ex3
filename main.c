@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
                 buffer = (char *) malloc(smaller - j);
                 read(f1, buffer, smaller - j);
 
-                if (compare(buffer, buffer2, smaller - j) >= (smaller - j + 1) / 2) {
+                if (compare(buffer, buffer2, smaller - j) >= (smaller + 1) / 2) {
                     return 3;
                 }
             } else {
@@ -84,7 +84,7 @@ int main(int argc, char** argv) {
                 buffer = (char *) malloc(smaller -j);
                 read(f2, buffer, smaller - j);
 
-                if (compare(buffer, buffer1, smaller - j) >= (smaller - j + 1) / 2) {
+                if (compare(buffer, buffer1, smaller - j) >= (smaller + 1) / 2) {
                     return 3;
                 }
             }
@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
                 strncpy(small, buffer2, smaller - j);
                 small[smaller - j] = 0;
 
-                if (compare(buffer, small, smaller - j) >= (smaller - j + 1) / 2) {
+                if (compare(buffer, small, smaller - j) >= (smaller + 1) / 2) {
                     return 3;
                 }
             } else {
@@ -112,7 +112,7 @@ int main(int argc, char** argv) {
                 strncpy(small, buffer1, smaller - j);
                 small[smaller - j] = 0;
 
-                if (compare(buffer, small, smaller - j) >= (smaller - j + 1) / 2) {
+                if (compare(buffer, small, smaller - j) >= (smaller + 1) / 2) {
                     return 3;
                 }
             }
